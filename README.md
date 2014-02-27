@@ -1,6 +1,6 @@
 # infinite fake data
 
-[Demo]()
+[Demo](http://glebbahmutov.com/infinite-fake-data/)
 
 This demo shows a simple table, with data coming from mock backend.
 The data is stored in the angular $scope array, bound to the table.
