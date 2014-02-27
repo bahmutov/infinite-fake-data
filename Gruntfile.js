@@ -41,6 +41,7 @@ module.exports = function (grunt) {
             src: [
               'lib/*.js',
               'infinite-fake-data.js',
+              'bower_components/jquery/dist/jquery.min.js',
               'bower_components/angular/angular.js',
               'bower_components/angular-mocks/angular-mocks.js',
               'index.html',
@@ -71,6 +72,7 @@ module.exports = function (grunt) {
         'README.md',
         '*.js',
         'lib/*.js',
+        'bower_components/jquery/dist/jquery.min.js',
         'bower_components/angular/angular.js',
         'bower_components/angular-mocks/angular-mocks.js'
       ]

@@ -25,7 +25,6 @@
     };
 
     $scope.showMeMore = function () {
-      console.log('show me more...');
       $scope.fetch();
     };
 

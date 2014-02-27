@@ -7,7 +7,7 @@
   <title>Infinite fake data</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
   <style>
   #loading-indicator {
     position: fixed;
@@ -17,6 +17,8 @@
   </style>
 
   <!-- this page is intended to run from dist/ folder -->
+  <!-- ng-infinite-scroll requires full jQuery -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-mocks/angular-mocks.js"></script>
   <script src="lib/Faker.js"></script>
@@ -24,26 +26,39 @@
   <script src="infinite-fake-data.js"></script>
 
   <script>
+  if (typeof Faker === 'undefined') { throw new Error('Cannot find Faker.js'); }
   angular.module('tester', ['infinite-fake-data', 'ngMockE2E'])
   .run(function ($httpBackend) {
-    $httpBackend.whenGET('/api/names')
-    .respond({
-      names: ['joe', 'john', 'adam']
+    var sliceRegExp = /\/people\/slice\/(\d+)\/(\d+)/;
+    $httpBackend.whenGET(sliceRegExp).respond(function(method, url, data) {
+      var indices = sliceRegExp.exec(url);
+      var from = indices[1];
+      var to = indices[2];
+
+      var people = [];
+      var MAX_N = to - from;
+      console.assert(MAX_N >= 0, 'invalid from and to indcies ' + from + ', ' + to);
+      for(var k = 0; k < MAX_N; k += 1) {
+        var person = {
+          email: Faker.Internet.email(),
+          firstname: Faker.Name.firstName(),
+          lastname: Faker.Name.lastName()
+        };
+        people.push(person);
+      }
+      return [200, people];
     });
   });
   </script>
 </head>
 <body>
-  <h1>infinite-fake-data</h1>
-
-  <div ng-app="infinite-fake-data" class="container" ng-controller="infiniteFakeDataCtrl">
+  <div ng-app="tester" class="container" ng-controller="infiniteFakeDataCtrl">
     <div id="loading-indicator" class="alert alert-info" ng-show="fetching">Fetching more...</div>
 
     <div class="page-header">
-      <h1>Infinite Table against json-server range</h1>
-      <small>Using <a target="_blank"
-        href="https://github.com/typicode/json-server">json-server</a>
-      and <a target="_blank"
+      <h1>Infinite fake data on scroll</h1>
+      <small>Using <a target="_blank" href="https://github.com/Marak/Faker.js">Faker.js</a> and
+        <a target="_blank"
         href="http://binarymuse.github.io/ngInfiniteScroll/index.html">ng-infinite-scroll</a></small>
     </div>
     <div class="row">
@@ -71,12 +86,12 @@
         </table>
       </div>
     </div>
-  </div>
 
-  <p>
-    Source code and explanation at
-    <a href="https://github.com/bahmutov/infinite-fake-data">infinite-fake-data</a>
-  </p>
+    <p>
+      Source code and explanation at
+      <a href="https://github.com/bahmutov/infinite-fake-data">infinite-fake-data</a>
+    </p>
+  </div>
 
   <script src="http://localhost:35729/livereload.js"></script>
 </body>
