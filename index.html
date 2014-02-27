@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Infinite fake data</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <style>
+  #loading-indicator {
+    position: fixed;
+    left: 45%;
+    top: 45%;
+  }
+  </style>
+
+  <!-- this page is intended to run from dist/ folder -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+  <script src="lib/Faker.js"></script>
+  <script src="lib/ng-infinite-scroll.js"></script>
+  <script src="infinite-fake-data.js"></script>
+
+  <script>
+  angular.module('tester', ['infinite-fake-data', 'ngMockE2E'])
+  .run(function ($httpBackend) {
+    $httpBackend.whenGET('/api/names')
+    .respond({
+      names: ['joe', 'john', 'adam']
+    });
+  });
+  </script>
+</head>
+<body>
+  <h1>infinite-fake-data</h1>
+
+  <div ng-app="infinite-fake-data" class="container" ng-controller="infiniteFakeDataCtrl">
+    <div id="loading-indicator" class="alert alert-info" ng-show="fetching">Fetching more...</div>
+
+    <div class="page-header">
+      <h1>Infinite Table against json-server range</h1>
+      <small>Using <a target="_blank"
+        href="https://github.com/typicode/json-server">json-server</a>
+      and <a target="_blank"
+        href="http://binarymuse.github.io/ngInfiniteScroll/index.html">ng-infinite-scroll</a></small>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-compact">
+          <thead>
+          <tr>
+            <th>N</th>
+            <th>Email</th>
+            <th>First</th>
+            <th>Last</th>
+          </tr>
+          </thead>
+          <tbody infinite-scroll="showMeMore()"
+                 infinite-scroll-distance="3"
+                 infinite-scroll-immediate-check="false"
+                 infinite-scroll-disabled="fetching">
+          <tr ng-repeat="p in people">
+            <td>{{$index}}</td>
+            <td>{{p.email}}</td>
+            <td>{{p.firstname}}</td>
+            <td>{{p.lastname}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Source code and explanation at
+    <a href="https://github.com/bahmutov/infinite-fake-data">infinite-fake-data</a>
+  </p>
+
+  <script src="http://localhost:35729/livereload.js"></script>
+</body>
+</html>
