@@ -2,7 +2,8 @@
 
 [Demo](http://glebbahmutov.com/infinite-fake-data/)
 
-This demo shows a simple table, with data coming from in-page mock backend.
+This demo shows a simple table, with data coming from in-page mock backend,
+where each request is slowed down by 1 second.
 The received data is stored in the angular $scope array, bound to the table.
 The demo works as static page, since everything is compiled / runs locally.
 
