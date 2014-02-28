@@ -18,16 +18,11 @@
       .success(function (response) {
         $scope.people = $scope.people.concat(response);
         if (response.length) {
-          startIndex += fetchNumber;
+          startIndex += response.length;
         }
         $scope.fetching = false;
       });
     };
-
-    $scope.showMeMore = function () {
-      $scope.fetch();
-    };
-
     $scope.fetch();
   }
 

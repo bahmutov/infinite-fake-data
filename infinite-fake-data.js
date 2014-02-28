@@ -23,11 +23,6 @@
         $scope.fetching = false;
       });
     };
-
-    $scope.showMeMore = function () {
-      $scope.fetch();
-    };
-
     $scope.fetch();
   }
 

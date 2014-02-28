@@ -24,9 +24,6 @@ $scope.fetch = function () {
     $scope.fetching = false;
   });
 };
-$scope.showMeMore = function () {
-  $scope.fetch();
-};
 ```
 
 ## Making fetch request on scroll
@@ -36,7 +33,7 @@ As the user scrolls to the bottom of the window, I use
 directive to signal and fetch more data.
 
 ```html
-    <tbody infinite-scroll="showMeMore()"
+    <tbody infinite-scroll="fetch()"
            infinite-scroll-distance="3"
            infinite-scroll-immediate-check="false"
            infinite-scroll-disabled="fetching">
