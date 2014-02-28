@@ -1,6 +1,7 @@
 # infinite fake data
 
-[Demo](http://glebbahmutov.com/infinite-fake-data/)
+[Demo](http://glebbahmutov.com/infinite-fake-data/),
+[source code](https://github.com/bahmutov/infinite-fake-data)
 
 This demo shows a simple table, with data coming from in-page mock backend,
 where each request is slowed down by 1 second.
@@ -94,7 +95,7 @@ the network delays, I slowed down mock backend responses.
 
 I have wrapped ngMockE2E.$httpBackend with a proxy object
 that delays executing the callback function (and thus transmitting the
-result to the client code) using the approach describe
+result to the client code) using the approach described in
 [Endless Indirection](http://endlessindirection.wordpress.com/2013/05/18/angularjs-delay-response-from-httpbackend/)
 
 ```js

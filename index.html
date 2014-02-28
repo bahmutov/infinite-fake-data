@@ -8,26 +8,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-  <style>
-  #loading-indicator {
-    position: fixed;
-    left: 45%;
-    top: 45%;
-  }
-  </style>
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
 
   <!-- this page is intended to run from dist/ folder -->
   <!-- ng-infinite-scroll requires full jQuery -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+  <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
   <script src="lib/Faker.js"></script>
   <script src="lib/ng-infinite-scroll.js"></script>
   <script src="infinite-fake-data.js"></script>
 
   <script>
   if (typeof Faker === 'undefined') { throw new Error('Cannot find Faker.js'); }
-  angular.module('tester', ['infinite-fake-data', 'ngMockE2E'])
+  angular.module('tester', ['infinite-fake-data', 'ngMockE2E', 'chieffancypants.loadingBar'])
   .config(function ($provide) {
     // delay mock backend responses by N seconds
     var DELAY_MS = 1000;
@@ -73,8 +68,6 @@
 </head>
 <body>
   <div ng-app="tester" class="container" ng-controller="infiniteFakeDataCtrl">
-    <div id="loading-indicator" class="alert alert-info" ng-show="fetching">Fetching more...</div>
-
     <div class="page-header">
       <h1>Infinite fake data on scroll - scroll down</h1>
       <small>Source code at <a href="https://github.com/bahmutov/infinite-fake-data">github</a>,

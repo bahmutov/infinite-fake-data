@@ -44,6 +44,8 @@ module.exports = function (grunt) {
               'bower_components/jquery/dist/jquery.min.js',
               'bower_components/angular/angular.js',
               'bower_components/angular-mocks/angular-mocks.js',
+              'bower_components/angular-loading-bar/build/loading-bar.min.js',
+              'bower_components/angular-loading-bar/build/loading-bar.min.css',
               'index.html',
               'README.md'
             ],
@@ -74,7 +76,9 @@ module.exports = function (grunt) {
         'lib/*.js',
         'bower_components/jquery/dist/jquery.min.js',
         'bower_components/angular/angular.js',
-        'bower_components/angular-mocks/angular-mocks.js'
+        'bower_components/angular-mocks/angular-mocks.js',
+        'bower_components/angular-loading-bar/build/loading-bar.min.js',
+        'bower_components/angular-loading-bar/build/loading-bar.min.css'
       ]
     }
   };
