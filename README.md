@@ -95,7 +95,7 @@ the network delays, I slowed down mock backend responses.
 
 I have wrapped ngMockE2E.$httpBackend with a proxy object
 that delays executing the callback function (and thus transmitting the
-result to the client code) using the approach describe
+result to the client code) using the approach described in
 [Endless Indirection](http://endlessindirection.wordpress.com/2013/05/18/angularjs-delay-response-from-httpbackend/)
 
 ```js
