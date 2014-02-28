@@ -23,6 +23,9 @@
   <script>
   if (typeof Faker === 'undefined') { throw new Error('Cannot find Faker.js'); }
   angular.module('tester', ['infinite-fake-data', 'ngMockE2E', 'chieffancypants.loadingBar'])
+  .config(function (cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = false;
+  })
   .config(function ($provide) {
     // delay mock backend responses by N seconds
     var DELAY_MS = 1000;
