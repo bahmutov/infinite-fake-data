@@ -96,5 +96,5 @@ module.exports = function (grunt) {
   grunt.initConfig(grunt.util._.extend(taskConfig, userConfig));
 
   grunt.registerTask('build', ['bower', 'clean', 'copy', 'clean-console']);
-  grunt.registerTask('default', ['sync', 'build']);
+  grunt.registerTask('default', ['nice-package', 'sync', 'build']);
 };
