@@ -25,6 +25,7 @@
     "angular": "~1.2.10",
     "angular-mocks": "~1.2.10",
     "jquery": "~2.1.0",
-    "angular-loading-bar": "~0.3.0"
+    "angular-loading-bar": "~0.3.0",
+    "es5-shim": "~4.1.0"
   }
 }

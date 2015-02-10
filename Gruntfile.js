@@ -74,6 +74,7 @@ module.exports = function (grunt) {
         'README.md',
         '*.js',
         'lib/*.js',
+        'bower_components/es5-shim/es5-shim.js',
         'bower_components/jquery/dist/jquery.min.js',
         'bower_components/angular/angular.js',
         'bower_components/angular-mocks/angular-mocks.js',
