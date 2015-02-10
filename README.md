@@ -2,6 +2,10 @@
 
 [Demo](http://glebbahmutov.com/infinite-fake-data/),
 [source code](https://github.com/bahmutov/infinite-fake-data)
+[![Build status][infinite-fake-data-ci-image] ][infinite-fake-data-ci-url]
+
+[infinite-fake-data-ci-image]: https://travis-ci.org/bahmutov/infinite-fake-data.png?branch=master
+[infinite-fake-data-ci-url]: https://travis-ci.org/bahmutov/infinite-fake-data
 
 This demo shows a simple table, with data coming from in-page mock backend,
 where each request is slowed down by 1 second.
