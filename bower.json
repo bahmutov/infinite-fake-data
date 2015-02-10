@@ -1,17 +1,20 @@
 {
-  "name": "local-angular-development",
-  "version": "0.0.0",
-  "homepage": "https://github.com/bahmutov/local-angular-development",
+  "name": "infinite-fake-data",
+  "version": "0.0.1",
+  "homepage": "https://github.com/bahmutov/infinite-fake-data",
   "authors": [
     "Gleb Bahmutov <gleb.bahmutov@gmail.com>"
   ],
-  "description": "You do not need a server for local Angular development",
+  "description": "Loading fake data into table on scroll",
   "main": "index.html",
   "keywords": [
     "angular",
-    "example",
-    "tutorial",
-    "local"
+    "angularjs",
+    "infinite",
+    "scroll",
+    "data",
+    "fake",
+    "mock"
   ],
   "license": "MIT",
   "ignore": [

@@ -32,6 +32,15 @@ module.exports = function (grunt) {
       }
     },
 
+    'clean-console': {
+      all: {
+        options: {
+          url: 'dist/index.html',
+          timeout: 1 // seconds to wait for any errors
+        }
+      }
+    },
+
     // make sure index.html example works inside destination folder
     copy: {
       all: {
@@ -41,6 +50,7 @@ module.exports = function (grunt) {
             src: [
               'lib/*.js',
               'infinite-fake-data.js',
+              'bower_components/es5-shim/es5-shim.js',
               'bower_components/jquery/dist/jquery.min.js',
               'bower_components/angular/angular.js',
               'bower_components/angular-mocks/angular-mocks.js',
@@ -85,6 +95,6 @@ module.exports = function (grunt) {
   };
   grunt.initConfig(grunt.util._.extend(taskConfig, userConfig));
 
-  grunt.registerTask('build', ['bower', 'clean', 'copy']);
-  grunt.registerTask('default', ['build']);
+  grunt.registerTask('build', ['bower', 'clean', 'copy', 'clean-console']);
+  grunt.registerTask('default', ['sync', 'build']);
 };

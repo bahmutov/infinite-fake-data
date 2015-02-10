@@ -1,10 +1,10 @@
 {
   "name": "infinite-fake-data",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Loading fake data into table on scroll",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
@@ -26,12 +26,16 @@
   },
   "homepage": "https://github.com/bahmutov/infinite-fake-data",
   "devDependencies": {
-    "matchdep": "~0.3.0",
     "grunt": "~0.4.2",
     "grunt-bower-task": "~0.3.4",
-    "grunt-contrib-copy": "~0.5.0",
+    "grunt-clean-console": "0.2.0",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-gh-pages": "~0.9.0"
-  }
+    "grunt-gh-pages": "~0.9.0",
+    "grunt-npm2bower-sync": "0.8.1",
+    "matchdep": "~0.3.0",
+    "pre-git": "0.1.1"
+  },
+  "pre-commit": ["grunt", "npm version"]
 }
