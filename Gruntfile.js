@@ -64,24 +64,26 @@ module.exports = function (grunt) {
 
     // make sure index.html example works inside destination folder
     copy: {
+      index: {
+        files: {
+          '<%= destination_dir %>/index.html': 'src/index.html'
+        }
+      },
       all: {
-        files: [
-          {
-            expand: true,
-            src: [
-              'lib/*.js',
-              'bower_components/es5-shim/es5-shim.js',
-              'bower_components/jquery/dist/jquery.min.js',
-              'bower_components/angular/angular.js',
-              'bower_components/angular-mocks/angular-mocks.js',
-              'bower_components/angular-loading-bar/build/loading-bar.min.js',
-              'bower_components/angular-loading-bar/build/loading-bar.min.css',
-              'index.html',
-              'README.md'
-            ],
-            dest: '<%= destination_dir %>'
-          }
-        ]
+        files: [{
+          expand: true,
+          src: [
+            'lib/*.js',
+            'bower_components/es5-shim/es5-shim.js',
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-mocks/angular-mocks.js',
+            'bower_components/angular-loading-bar/build/loading-bar.min.js',
+            'bower_components/angular-loading-bar/build/loading-bar.min.css',
+            'README.md'
+          ],
+          dest: '<%= destination_dir %>'
+        }]
       }
     },
 
@@ -90,7 +92,7 @@ module.exports = function (grunt) {
         options: {
           livereload: 35729
         },
-        files: ['*.js', 'index.html'],
+        files: ['src/*.es6', 'src/index.html', '*.js'],
         tasks: ['build']
       }
     },
