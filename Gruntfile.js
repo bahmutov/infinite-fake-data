@@ -43,14 +43,23 @@ module.exports = function (grunt) {
 
     '6to5': {
       options: {
-        sourceMap: false
+        sourceMap: false,
+        modules: 'common'
       },
       dist: {
         files: {
           'dist/src/infinite-fake-data.js': 'src/infinite-fake-data.es6',
-          'dist/src/app.js': 'src/app.es6'
+          'dist/src/app.js': 'src/app.es6',
+          'dist/src/slow-down-http.js': 'src/slow-down-http.es6'
         }
       }
+    },
+
+    browserify: {
+      options: {
+        transform: ['6to5ify']
+      },
+      'dist/src/app.js': 'src/*.es6'
     },
 
     // make sure index.html example works inside destination folder
@@ -107,6 +116,6 @@ module.exports = function (grunt) {
   };
   grunt.initConfig(grunt.util._.extend(taskConfig, userConfig));
 
-  grunt.registerTask('build', ['bower', 'clean', '6to5', 'copy', 'clean-console']);
+  grunt.registerTask('build', ['bower', 'clean', 'browserify', 'copy', 'clean-console']);
   grunt.registerTask('default', ['nice-package', 'sync', 'build']);
 };

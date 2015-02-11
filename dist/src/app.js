@@ -1,58 +1,100 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
+
+if (typeof Faker === "undefined") {
+  throw new Error("Cannot find Faker.js");
+}
+
+var slowDownHttp = require("./slow-down-http.es6").slowDownHttp;
+
+
+// configure the loading bar for http requests
+function showLoader(cfpLoadingBarProvider) {
+  cfpLoadingBarProvider.includeSpinner = false;
+}
+
+function returnFakePeople($httpBackend) {
+  var sliceRegExp = /\/people\/slice\/(\d+)\/(\d+)/;
+  $httpBackend.whenGET(sliceRegExp).respond(function (method, url, data) {
+    var indices = sliceRegExp.exec(url);
+    var from = indices[1];
+    var to = indices[2];
+
+    var people = [];
+    var MAX_N = to - from;
+    console.assert(MAX_N >= 0, "invalid from and to indcies " + from + ", " + to);
+    for (var k = 0; k < MAX_N; k += 1) {
+      var person = {
+        email: Faker.Internet.email(),
+        firstname: Faker.Name.firstName(),
+        lastname: Faker.Name.lastName()
+      };
+      people.push(person);
+    }
+    return [200, people];
+  });
+}
+
+angular.module("tester", ["infinite-fake-data", "ngMockE2E", "chieffancypants.loadingBar"]).config(showLoader).config(slowDownHttp).run(returnFakePeople);
+
+},{"./slow-down-http.es6":3}],2:[function(require,module,exports){
 "use strict";
 
 (function (angular) {
-  if (typeof Faker === "undefined") {
-    throw new Error("Cannot find Faker.js");
+  "use strict";
+
+  function infiniteFakeDataCtrl($scope, $http) {
+    $scope.fetching = false;
+    $scope.people = [];
+
+    var startIndex = 0;
+    var fetchNumber = 50;
+
+    $scope.fetch = function () {
+      $scope.fetching = true;
+
+      $http.get("/people/slice/" + startIndex + "/" + (startIndex + fetchNumber)).success(function (response) {
+        $scope.people = $scope.people.concat(response);
+        if (response.length) {
+          startIndex += response.length;
+        }
+      })["finally"](function () {
+        $scope.fetching = false;
+      });
+    };
+    $scope.fetch();
   }
 
-  // configure the loading bar for http requests
-  function showLoader(cfpLoadingBarProvider) {
-    cfpLoadingBarProvider.includeSpinner = false;
-  }
+  angular.module("infinite-fake-data", ["infinite-scroll"]).controller("infiniteFakeDataCtrl", infiniteFakeDataCtrl);
+})(angular);
 
-  // delay mock backend responses by N seconds
-  function slowDownHttp($provide) {
-    var DELAY_MS = 1000; // ms
-    $provide.decorator("$httpBackend", function ($delegate) {
-      var proxy = function (method, url, data, callback, headers) {
-        var interceptor = function () {
-          var _this = this,
-              _arguments = arguments;
-          setTimeout(function () {
-            // return result to the client AFTER delay
-            callback.apply(_this, _arguments);
-          }, DELAY_MS);
-        };
-        return $delegate.call(this, method, url, data, interceptor, headers);
+},{}],3:[function(require,module,exports){
+"use strict";
+
+// delay mock backend responses by N seconds
+exports.slowDownHttp = slowDownHttp;
+function slowDownHttp($provide) {
+  var DELAY_MS = 1000; // ms
+  $provide.decorator("$httpBackend", function ($delegate) {
+    var proxy = function (method, url, data, callback, headers) {
+      var interceptor = function () {
+        var _this = this,
+            _arguments = arguments;
+        setTimeout(function () {
+          // return result to the client AFTER delay
+          callback.apply(_this, _arguments);
+        }, DELAY_MS);
       };
-      for (var key in $delegate) {
-        proxy[key] = $delegate[key];
-      }
-      return proxy;
-    });
-  }
+      return $delegate.call(this, method, url, data, interceptor, headers);
+    };
+    for (var key in $delegate) {
+      proxy[key] = $delegate[key];
+    }
+    return proxy;
+  });
+}
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-  function returnFakePeople($httpBackend) {
-    var sliceRegExp = /\/people\/slice\/(\d+)\/(\d+)/;
-    $httpBackend.whenGET(sliceRegExp).respond(function (method, url, data) {
-      var indices = sliceRegExp.exec(url);
-      var from = indices[1];
-      var to = indices[2];
-
-      var people = [];
-      var MAX_N = to - from;
-      console.assert(MAX_N >= 0, "invalid from and to indcies " + from + ", " + to);
-      for (var k = 0; k < MAX_N; k += 1) {
-        var person = {
-          email: Faker.Internet.email(),
-          firstname: Faker.Name.firstName(),
-          lastname: Faker.Name.lastName()
-        };
-        people.push(person);
-      }
-      return [200, people];
-    });
-  }
-
-  angular.module("tester", ["infinite-fake-data", "ngMockE2E", "chieffancypants.loadingBar"]).config(showLoader).config(slowDownHttp).run(returnFakePeople);
-})(window.angular);
+},{}]},{},[1,2,3]);
