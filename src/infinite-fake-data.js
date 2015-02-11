@@ -1,10 +1,7 @@
 (function (angular) {
   'use strict';
-  var url = '/people';
 
-  angular.module('infinite-fake-data', ['infinite-scroll']);
-
-  window.infiniteFakeDataCtrl = function($scope, $http) {
+  function infiniteFakeDataCtrl($scope, $http) {
     $scope.fetching = false;
     $scope.people = [];
 
@@ -14,16 +11,21 @@
     $scope.fetch = function () {
       $scope.fetching = true;
 
-      $http.get(url + '/slice/' + startIndex + '/' + (startIndex + fetchNumber))
-      .success(function (response) {
-        $scope.people = $scope.people.concat(response);
-        if (response.length) {
-          startIndex += response.length;
-        }
-        $scope.fetching = false;
-      });
+      $http.get('/people/slice/' + startIndex + '/' + (startIndex + fetchNumber))
+        .success(function (response) {
+          $scope.people = $scope.people.concat(response);
+          if (response.length) {
+            startIndex += response.length;
+          }
+        })
+        .finally(function () {
+          $scope.fetching = false;
+        });
     };
     $scope.fetch();
   }
+
+  angular.module('infinite-fake-data', ['infinite-scroll'])
+    .controller('infiniteFakeDataCtrl', infiniteFakeDataCtrl);
 
 }(angular));
