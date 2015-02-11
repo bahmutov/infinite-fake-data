@@ -47,7 +47,7 @@ module.exports = function (grunt) {
           ['6to5ify', { extensions: '.es6' }]
         ]
       },
-      'dist/src/app.js': ['src/*.es6']
+      'dist/src/app.js': ['src/*.es6', 'src/*.js']
     },
 
     // make sure index.html example works inside destination folder

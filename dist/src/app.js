@@ -42,7 +42,15 @@ function returnFakePeople($httpBackend) {
 
 angular.module("tester", ["infinite-fake-data", "ngMockE2E", "chieffancypants.loadingBar"]).config(showLoader).config(slowDownHttp).run(returnFakePeople);
 
-},{"./slow-down-http":3}],2:[function(require,module,exports){
+},{"./slow-down-http":4}],2:[function(require,module,exports){
+"use strict";
+
+var DELAY_MS = exports.DELAY_MS = 1000; // ms
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+},{}],3:[function(require,module,exports){
 "use strict";
 
 function infiniteFakeDataCtrl($scope, $http) {
@@ -69,10 +77,14 @@ function infiniteFakeDataCtrl($scope, $http) {
 
 angular.module("infinite-fake-data", ["infinite-scroll"]).controller("infiniteFakeDataCtrl", infiniteFakeDataCtrl);
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 // delay mock backend responses by N seconds
 module.exports = function slowDownHttp($provide) {
-  var DELAY_MS = 1000; // ms
+  var DELAY_MS = require('./default-delay.es6').DELAY_MS;
+  if (typeof DELAY_MS !== 'number') {
+    throw new Error('invalid delay ms ' + DELAY_MS);
+  }
+
   $provide.decorator('$httpBackend', function ($delegate) {
     var proxy = function(method, url, data, callback, headers) {
       var interceptor = function() {
@@ -91,4 +103,4 @@ module.exports = function slowDownHttp($provide) {
   });
 };
 
-},{}]},{},[1,2]);
+},{"./default-delay.es6":2}]},{},[1,2,3,4]);

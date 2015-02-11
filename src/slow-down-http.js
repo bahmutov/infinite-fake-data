@@ -1,6 +1,10 @@
 // delay mock backend responses by N seconds
 module.exports = function slowDownHttp($provide) {
-  var DELAY_MS = 1000; // ms
+  var DELAY_MS = require('./default-delay.es6').DELAY_MS;
+  if (typeof DELAY_MS !== 'number') {
+    throw new Error('invalid delay ms ' + DELAY_MS);
+  }
+
   $provide.decorator('$httpBackend', function ($delegate) {
     var proxy = function(method, url, data, callback, headers) {
       var interceptor = function() {
