@@ -1,12 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
 if (typeof Faker === "undefined") {
   throw new Error("Cannot find Faker.js");
 }
 
-var slowDownHttp = require("./slow-down-http.es6").slowDownHttp;
+var slowDownHttp = _interopRequire(require("./slow-down-http"));
 
+if (typeof slowDownHttp !== "function") {
+  throw new Error("Cannot find slow down http function");
+}
 
 // configure the loading bar for http requests
 function showLoader(cfpLoadingBarProvider) {
@@ -37,7 +42,7 @@ function returnFakePeople($httpBackend) {
 
 angular.module("tester", ["infinite-fake-data", "ngMockE2E", "chieffancypants.loadingBar"]).config(showLoader).config(slowDownHttp).run(returnFakePeople);
 
-},{"./slow-down-http.es6":3}],2:[function(require,module,exports){
+},{"./slow-down-http":3}],2:[function(require,module,exports){
 "use strict";
 
 function infiniteFakeDataCtrl($scope, $http) {
@@ -65,18 +70,14 @@ function infiniteFakeDataCtrl($scope, $http) {
 angular.module("infinite-fake-data", ["infinite-scroll"]).controller("infiniteFakeDataCtrl", infiniteFakeDataCtrl);
 
 },{}],3:[function(require,module,exports){
-"use strict";
-
 // delay mock backend responses by N seconds
-exports.slowDownHttp = slowDownHttp;
-function slowDownHttp($provide) {
+module.exports = function slowDownHttp($provide) {
   var DELAY_MS = 1000; // ms
-  $provide.decorator("$httpBackend", function ($delegate) {
-    var proxy = function (method, url, data, callback, headers) {
-      var interceptor = function () {
-        var _this = this,
-            _arguments = arguments;
-        setTimeout(function () {
+  $provide.decorator('$httpBackend', function ($delegate) {
+    var proxy = function(method, url, data, callback, headers) {
+      var interceptor = function() {
+        var _this = this, _arguments = arguments;
+        setTimeout(function() {
           // return result to the client AFTER delay
           callback.apply(_this, _arguments);
         }, DELAY_MS);
@@ -88,9 +89,6 @@ function slowDownHttp($provide) {
     }
     return proxy;
   });
-}
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+};
 
-},{}]},{},[1,2,3]);
+},{}]},{},[1,2]);

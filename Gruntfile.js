@@ -43,9 +43,11 @@ module.exports = function (grunt) {
 
     browserify: {
       options: {
-        transform: ['6to5ify']
+        transform: [
+          ['6to5ify', { extensions: '.es6' }]
+        ]
       },
-      'dist/src/app.js': 'src/*.es6'
+      'dist/src/app.js': ['src/*.es6']
     },
 
     // make sure index.html example works inside destination folder
@@ -74,10 +76,11 @@ module.exports = function (grunt) {
     },
 
     watch: {
+      options: {
+        livereload: 35729,
+        atBegin: true
+      },
       all: {
-        options: {
-          livereload: 35729
-        },
         files: ['src/*.es6', 'src/index.html', '*.js'],
         tasks: ['build']
       }

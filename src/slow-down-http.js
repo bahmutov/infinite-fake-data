@@ -1,5 +1,5 @@
 // delay mock backend responses by N seconds
-export function slowDownHttp($provide) {
+module.exports = function slowDownHttp($provide) {
   var DELAY_MS = 1000; // ms
   $provide.decorator('$httpBackend', function ($delegate) {
     var proxy = function(method, url, data, callback, headers) {
@@ -17,4 +17,4 @@ export function slowDownHttp($provide) {
     }
     return proxy;
   });
-}
+};

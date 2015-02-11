@@ -2,7 +2,10 @@ if (typeof Faker === 'undefined') {
   throw new Error('Cannot find Faker.js');
 }
 
-import { slowDownHttp } from './slow-down-http.es6';
+import slowDownHttp from './slow-down-http';
+if (typeof slowDownHttp !== 'function') {
+  throw new Error('Cannot find slow down http function');
+}
 
 // configure the loading bar for http requests
 function showLoader(cfpLoadingBarProvider) {
