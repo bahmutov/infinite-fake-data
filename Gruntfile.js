@@ -41,20 +41,6 @@ module.exports = function (grunt) {
       }
     },
 
-    '6to5': {
-      options: {
-        sourceMap: false,
-        modules: 'common'
-      },
-      dist: {
-        files: {
-          'dist/src/infinite-fake-data.js': 'src/infinite-fake-data.es6',
-          'dist/src/app.js': 'src/app.es6',
-          'dist/src/slow-down-http.js': 'src/slow-down-http.es6'
-        }
-      }
-    },
-
     browserify: {
       options: {
         transform: ['6to5ify']
