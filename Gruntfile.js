@@ -41,6 +41,18 @@ module.exports = function (grunt) {
       }
     },
 
+    '6to5': {
+      options: {
+        sourceMap: false
+      },
+      dist: {
+        files: {
+          'dist/src/infinite-fake-data.js': 'src/infinite-fake-data.es6',
+          'dist/src/app.js': 'src/app.es6'
+        }
+      }
+    },
+
     // make sure index.html example works inside destination folder
     copy: {
       all: {
@@ -49,7 +61,6 @@ module.exports = function (grunt) {
             expand: true,
             src: [
               'lib/*.js',
-              'src/*.js',
               'bower_components/es5-shim/es5-shim.js',
               'bower_components/jquery/dist/jquery.min.js',
               'bower_components/angular/angular.js',
@@ -96,6 +107,6 @@ module.exports = function (grunt) {
   };
   grunt.initConfig(grunt.util._.extend(taskConfig, userConfig));
 
-  grunt.registerTask('build', ['bower', 'clean', 'copy', 'clean-console']);
+  grunt.registerTask('build', ['bower', 'clean', '6to5', 'copy', 'clean-console']);
   grunt.registerTask('default', ['nice-package', 'sync', 'build']);
 };
